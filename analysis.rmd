@@ -4,9 +4,6 @@ Date: "12/7/21"
 output: github_document
 ---
 
-## KNIT FIRST, THEN SAVE, THEN COMMIT, THEN PUSH 
-## OTHER PERSON PULLS TO SEE UPDATES 
-## OTHER IMPORTANT NOTE, IF YOU HAVE STUFF, COMMIT BEFORE YOU PULL!
 ```{r setup, include = FALSE}
 library(tidyverse)
 
@@ -28,8 +25,16 @@ scale_fill_discrete = scale_fill_viridis_d
 
 ```
 
+# Data Cleaning
+
+Loading the COVID data from NYC Health.
 ```{r}
-scale_colour_discrete = scale_colour_viridis_d
-scale_fill_discrete = scale_fill_viridis_d
+caserate_by_zip = read_csv("./data/caserate-by-modzcta.csv")
+vax_by_boro_age = read_csv("./data/coverage-by-boro-age.csv")
+vax_by_boro_demo = read_csv("./data/coverage-by-boro-demo.csv")
+data_by_day = read_csv("./data/data-by-day.csv")
+doses_by_day = read_csv("./data/doses-by-day.csv")
+hosprate_by_zip = read_csv("./data/hosprate-by-modzcta.csv")
+testrate_by_zip = read_csv("./data/testrate-by-modzcta.csv")
 ```
 
