@@ -3,7 +3,7 @@
     "path": "/Applications/Documents/GIT for real/final project/twindemic_analysis/analysis.rmd",
     "project_path": null,
     "type": "r_markdown",
-    "hash": "302733141",
+    "hash": "2060931859",
     "contents": "",
     "dirty": false,
     "created": 1638892629377.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "9,0",
+        "cursorPosition": "26,22",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1638892805,
+    "lastKnownWriteTime": 1638893041,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1638892805231,
+    "last_content_update": 1638893041998,
     "read_only": false,
     "read_only_alternatives": []
 }
