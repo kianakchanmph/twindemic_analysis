@@ -6,6 +6,7 @@ output: github_document
 
 ## KNIT FIRST, THEN SAVE, THEN COMMIT, THEN PUSH 
 ## OTHER PERSON PULLS TO SEE UPDATES 
+## OTHER IMPORTANT NOTE, IF YOU HAVE STUFF, COMMIT BEFORE YOU PULL!
 ```{r setup, include = FALSE}
 library(tidyverse)
 
