@@ -13,6 +13,7 @@ data_by_day = read_csv("./data/data-by-day.csv")
 doses_by_day = read_csv("./data/doses-by-day.csv")
 hosprate_by_zip = read_csv("./data/hosprate-by-modzcta.csv")
 testrate_by_zip = read_csv("./data/testrate-by-modzcta.csv")
+vax_by_zip_adults = read_csv("./data/coverage-by-modzcta-adults.csv")
 ```
 
 From the datasets above, we will likely compare the following pairs:
@@ -139,13 +140,24 @@ data_by_day_df =
   )
 ```
 
+Cleaning vax\_by\_zip\_adults:
+
+``` r
+vax_by_zip_adults_df = 
+  vax_by_zip_adults %>% 
+  janitor::clean_names() %>% 
+  rename(boro = borough, zipcode = modzcta)
+```
+
 ## Exploratory Analysis: COVID-19 Rates & Vaccinations
 
-<img src="analysis_files/figure-gfm/unnamed-chunk-7-1.png" width="90%" />
+<img src="analysis_files/figure-gfm/unnamed-chunk-8-1.png" width="90%" />
+
+<img src="analysis_files/figure-gfm/unnamed-chunk-9-1.png" width="90%" /><img src="analysis_files/figure-gfm/unnamed-chunk-9-2.png" width="90%" />
 
 Loading NYC Locations Providing Seasonal Flu Vaccinations/ Emergency
 Department Visits and Admissions for Influenza-like Illness/ Census
-Selected Social Characterisics
+Selected Social Characteristics
 
 ``` r
 flu_vaxx_loc = read_csv("./data/New_York_City_Locations_Providing_Seasonal_Flu_Vaccinations.csv")

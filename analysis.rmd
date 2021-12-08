@@ -41,6 +41,7 @@ data_by_day = read_csv("./data/data-by-day.csv")
 doses_by_day = read_csv("./data/doses-by-day.csv")
 hosprate_by_zip = read_csv("./data/hosprate-by-modzcta.csv")
 testrate_by_zip = read_csv("./data/testrate-by-modzcta.csv")
+vax_by_zip_adults = read_csv("./data/coverage-by-modzcta-adults.csv")
 ```
 From the datasets above, we will likely compare the following pairs: caserate/hosprate/testrate_by_zip; data/doses_by_day; vax_by_boro_age/demo
 
@@ -162,6 +163,14 @@ data_by_day_df =
   )
 ```
 
+Cleaning vax_by_zip_adults:
+```{r}
+vax_by_zip_adults_df = 
+  vax_by_zip_adults %>% 
+  janitor::clean_names() %>% 
+  rename(boro = borough, zipcode = modzcta)
+```
+
 ## Exploratory Analysis: COVID-19 Rates & Vaccinations
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 caserate_by_boro_plot = 
@@ -178,8 +187,35 @@ caserate_by_boro_plot =
 caserate_by_boro_plot
 ```
 
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+partial_vax_plot =
+  vax_by_zip_adults_df %>% 
+  filter(perc_partially < 30) %>% 
+  ggplot(aes(x = boro, y = perc_partially, fill = boro)) +
+  geom_boxplot() +
+  labs(
+    title = "Percent adults partially vaccinated by borough, as of 12/7/2021",
+    x = "",
+    y = "Percent partially vaccinated"
+  )
 
-Loading NYC Locations Providing Seasonal Flu Vaccinations/ Emergency Department Visits and Admissions for Influenza-like Illness/ Census Selected Social Characterisics
+full_vax_plot =
+  vax_by_zip_adults_df %>% 
+  filter(perc_fully < 100) %>% 
+  ggplot(aes(x = boro, y = perc_fully, fill = boro)) +
+  geom_boxplot() +
+  labs(
+    title = "Percent adults fully vaccinated by borough, as of 12/7/2021",
+    x = "",
+    y = "Percent fully vaccinated"
+  )
+
+partial_vax_plot
+full_vax_plot
+```
+
+
+Loading NYC Locations Providing Seasonal Flu Vaccinations/ Emergency Department Visits and Admissions for Influenza-like Illness/ Census Selected Social Characteristics
 ```{r, message = FALSE, warning = FALSE}
 flu_vaxx_loc = read_csv("./data/New_York_City_Locations_Providing_Seasonal_Flu_Vaccinations.csv")
 census_social = read_csv("./data/censuszip_selected_social_characterisitcs.csv")
