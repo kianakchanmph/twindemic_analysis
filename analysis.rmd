@@ -6,6 +6,11 @@ output: github_document
 
 ```{r setup, include = FALSE}
 library(tidyverse)
+library(dplyr)
+library(readxl)
+library(haven)
+library(ggplot2)
+library(patchwork)
 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -38,3 +43,8 @@ hosprate_by_zip = read_csv("./data/hosprate-by-modzcta.csv")
 testrate_by_zip = read_csv("./data/testrate-by-modzcta.csv")
 ```
 
+Loading NYC Locations Providing Seasonal Flu Vaccinations/ Emergency Department Visits and Admissions for Influenza-like Illness/ Census Selected Social Characterisics
+```{r}
+flu_vaxx_loc = read_csv("./data/New_York_City_Locations_Providing_Seasonal_Flu_Vaccinations.csv")
+census_social = read_csv("./data/censuszip_selected_social_characterisitcs.csv")
+```
