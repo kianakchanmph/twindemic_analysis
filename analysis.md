@@ -14,6 +14,12 @@ doses_by_day = read_csv("./data/doses-by-day.csv")
 hosprate_by_zip = read_csv("./data/hosprate-by-modzcta.csv")
 testrate_by_zip = read_csv("./data/testrate-by-modzcta.csv")
 vax_by_zip_adults = read_csv("./data/coverage-by-modzcta-adults.csv")
+
+zip_lat_lon = 
+  read.table("./data/us_zipcode_lat_lon.txt", sep = ",", header = TRUE) %>% 
+  janitor::clean_names() %>% 
+  rename(zipcode = zip) %>% 
+  filter(zipcode %in% c(10001:10280))
 ```
 
 From the datasets above, we will likely compare the following pairs:
