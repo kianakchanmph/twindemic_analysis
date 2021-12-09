@@ -4,7 +4,8 @@ Date: "12/7/21"
 output: github_document
 ---
 
-
+## KNIT FIRST, THEN SAVE, THEN COMMIT, THEN PUSH 
+## OTHER PERSON PULLS TO SEE UPDATES 
 ```{r setup, include = FALSE}
 library(tidyverse)
 
@@ -23,4 +24,11 @@ options(
 
 scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
+
 ```
+
+```{r}
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
