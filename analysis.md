@@ -1,6 +1,14 @@
 Twindemic Analaysis
 ================
 
+# &lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated upstream
+
+## KNIT FIRST, THEN SAVE, THEN COMMIT, THEN PUSH
+
+## COMMIT FIRST, THEN PULL (FROM OTHER END)
+
+> > > > > > > Stashed changes
+
 # Data Cleaning
 
 Loading the COVID data from NYC Health.
@@ -167,5 +175,66 @@ Selected Social Characteristics
 
 ``` r
 flu_vaxx_loc = read_csv("./data/New_York_City_Locations_Providing_Seasonal_Flu_Vaccinations.csv")
+
 census_social = read_csv("./data/censuszip_selected_social_characterisitcs.csv")
 ```
+
+# Data Cleaning 2
+
+Cleaning flu\_vaxx\_loc:
+
+``` r
+flu_vaxx_byzipcode =
+
+  flu_vaxx_loc %>%
+
+  janitor::clean_names() %>%
+
+  select(walk_in:zip_code, location) %>%
+
+  filter(borough != "YONKERS") %>%
+
+  group_by(zip_code) %>%
+
+  summarize(n_loc = n()) #to get the total number of vax locations by zipcode
+
+ 
+
+flu_vaxx_byboro =
+
+    flu_vaxx_loc %>%
+
+    janitor::clean_names() %>%
+
+    mutate(borough = toupper(borough)) %>%
+
+    filter(borough != "YONKERS") %>%
+
+    group_by(borough) %>%
+
+    summarize(n_loc_boro = n()) #to get the total number of vax locations by zipcode
+```
+
+## Exploratory Analysis:
+
+``` r
+ggplot(flu_vaxx_byboro, aes(x = borough, y = n_loc_boro)) +
+
+  geom_bar(stat = "identity") +
+
+  labs(
+
+    title = "Distribution of Locations Providing
+
+  Seasonal Flu Vaccinations in NYC",
+
+    x = "Boroughs of NYC",
+
+    y = "Number of Locations Providing Seasonal Flu Vaccinations"
+
+  ) +
+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+<img src="analysis_files/figure-gfm/unnamed-chunk-12-1.png" width="90%" />
