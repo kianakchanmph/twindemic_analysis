@@ -245,8 +245,6 @@ flu_vaxx_byzipcode =
 flu_vaxx_byboro = 
     flu_vaxx_loc %>% 
     janitor::clean_names() %>% 
-
-flu_vaxx_byboro
     mutate(borough = toupper(borough)) %>% 
     filter(borough != "YONKERS") %>% 
     group_by(borough) %>%
