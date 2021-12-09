@@ -224,6 +224,7 @@ partial_vax_plot
 full_vax_plot
 ```
 
+
 Loading NYC Locations Providing Seasonal Flu Vaccinations/ Emergency Department Visits and Admissions for Influenza-like Illness/ Census Selected Social Characteristics
 ```{r, message = FALSE, warning = FALSE}
 flu_vaxx_loc = read_csv("./data/New_York_City_Locations_Providing_Seasonal_Flu_Vaccinations.csv")
