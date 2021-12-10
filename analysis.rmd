@@ -235,7 +235,7 @@ Loading NYC Locations Providing Seasonal Flu Vaccinations/ Emergency Department 
 
 flu_vaxx_loc = read_csv("./data/New_York_City_Locations_Providing_Seasonal_Flu_Vaccinations.csv")
 
-census_social = read_csv("./data/censuszip_selected_social_characterisitcs.csv")
+census_social = read_csv("./data/censuszip_selected_social_characterisitcs_new.csv")
 
 ```
 
@@ -306,6 +306,35 @@ ggplot(flu_vaxx_byboro, aes(x = borough, y = n_loc_boro)) +
   theme(plot.title = element_text(hjust = 0.5))
 
  
+```
+
+# Social Demo 
+```{r}
+# education
+cs =
+  census_social %>%
+  janitor::clean_names() %>% 
+  select(name_1, borough, dp02_0060e, dp02_0061e,dp02_0062e,dp02_0063e,dp02_0064e,dp02_0065e, dp02_0066e, dp02_0067e, dp02_0068e) %>%
+  filter(borough != "Westchester" ,
+  borough != "Suffolk" ,
+  borough != "Nassau" ,
+  ) %>%
+  rename(
+  less_than_9th = dp02_0060e,
+  hs_no_diploma = dp02_0061e,
+  hs_grad = dp02_0062e,
+  some_college = dp02_0063e, 
+  Associates = dp02_0064e, 
+  Bachelors = dp02_0065e, 
+  Graduate_or_Professional = dp02_0066e, 
+  hs_or_higher = dp02_0067e, 
+  bachelors_or_higher = dp02_0068e
+  ) %>%
+  pivot_longer(
+    less_than_9th:bachelors_or_higher,
+    names_to = "education", 
+    values_to = "Estimates for Population over 25 years"
+  ) 
 ```
 
 
