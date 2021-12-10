@@ -54,7 +54,6 @@ From the datasets above, we will likely compare the following pairs: caserate/ho
 
 
 
-
 Cleaning caserate_by_zip:
 ```{r}
 caserate_by_zipcode = 
