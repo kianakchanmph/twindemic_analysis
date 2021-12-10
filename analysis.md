@@ -1,13 +1,6 @@
-Twindemic Analaysis
+Twindemic Analysis
 ================
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-## KNIT FIRST, THEN SAVE, THEN COMMIT, THEN PUSH
-=======
-=======
 # &lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated upstream
 
 ## KNIT FIRST, THEN SAVE, THEN COMMIT, THEN PUSH
@@ -16,9 +9,7 @@ Twindemic Analaysis
 
 > > > > > > > Stashed changes
 
->>>>>>> 952615f039725000589d7a4f6f5b10fb726382a5
 # Data Cleaning
->>>>>>> 9b76bae203c3bf14c6d5d38e4f496231a1ba4692
 
 Loading the COVID data from NYC Health.
 
@@ -187,9 +178,6 @@ flu_vaxx_loc = read_csv("./data/New_York_City_Locations_Providing_Seasonal_Flu_V
 
 census_social = read_csv("./data/censuszip_selected_social_characterisitcs.csv")
 ```
-<<<<<<< HEAD
->>>>>>> cd3acfa5798a7abb8667fff77ddcd823abe7ade1
-=======
 
 # Data Cleaning 2
 
@@ -250,4 +238,3 @@ ggplot(flu_vaxx_byboro, aes(x = borough, y = n_loc_boro)) +
 ```
 
 <img src="analysis_files/figure-gfm/unnamed-chunk-12-1.png" width="90%" />
->>>>>>> 952615f039725000589d7a4f6f5b10fb726382a5

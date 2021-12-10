@@ -1,5 +1,5 @@
 ---
-title: "Twindemic Analaysis"
+title: "Twindemic Analysis"
 Date: "12/7/21"
 output: github_document
 ---
