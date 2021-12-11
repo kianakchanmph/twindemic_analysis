@@ -51,6 +51,7 @@ hosprate_by_zip = read_csv("./data/hosprate-by-modzcta.csv")
 testrate_by_zip = read_csv("./data/testrate-by-modzcta.csv")
 vax_by_zip_adults = read_csv("./data/coverage-by-modzcta-adults.csv")
 boroughs_by_sex = read_csv("./data/boroughs-by-sex.csv")
+boroughs_by_age = read_csv("./data/boroughs-by-age.csv")
 
 zip_lat_lon = 
   read.table("./data/us_zipcode_lat_lon.txt", sep = ",", header = TRUE) %>% 
@@ -209,7 +210,7 @@ caserate_by_boro_plot
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 boroughs_by_sex_plot = 
   boroughs_by_sex %>% 
-  ggplot(aes(x = Group, y = SI_DEATH_RATE)) +
+  ggplot(aes(x = group, y = SI_DEATH_RATE)) +
   geom_line() +
   labs(
     title = "Death Rate by Sex",
