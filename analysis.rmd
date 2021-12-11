@@ -413,7 +413,12 @@ merged_vax %>%
 library(maptools)
 library(spatstat)
 library(sf)
-library(spatstat)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .9,
+  out.width = "90%"
+)
 ```
 
 ## FLU CLUSTERING
