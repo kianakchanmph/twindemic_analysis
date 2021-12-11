@@ -50,6 +50,7 @@ doses_by_day = read_csv("./data/doses-by-day.csv")
 hosprate_by_zip = read_csv("./data/hosprate-by-modzcta.csv")
 testrate_by_zip = read_csv("./data/testrate-by-modzcta.csv")
 vax_by_zip_adults = read_csv("./data/coverage-by-modzcta-adults.csv")
+boroughs_by_sex = read_csv("./data/boroughs-by-sex.csv")
 
 zip_lat_lon = 
   read.table("./data/us_zipcode_lat_lon.txt", sep = ",", header = TRUE) %>% 
@@ -58,6 +59,7 @@ zip_lat_lon =
   filter(zipcode %in% c(10001:11697))
 ```
 From the datasets above, we will likely compare the following pairs: caserate/hosprate/testrate_by_zip; data/doses_by_day; vax_by_boro_age/demo
+
 
 
 
@@ -205,18 +207,18 @@ caserate_by_boro_plot
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-testrate_by_boro_plot = 
-  testrate_by_zip %>% 
-  ggplot(aes(x = week_ending, y = testrate) +
-  geom_line() + 
+boroughs_by_sex_plot = 
+  boroughs_by_sex %>% 
+  ggplot(aes(x = Group, y = SI_DEATH_RATE)) +
+  geom_line() +
   labs(
-    title = "Test Rate by Borough", 
-    x = "",
-    y = "Case Rate"
-  )) 
-testrate_by_boro_plot
-```
+    title = "Death Rate by Sex",
+    x = "Group",
+    y = "Death Rate"
+  )
 
+boroughs_by_sex_plot
+```
 
     
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
