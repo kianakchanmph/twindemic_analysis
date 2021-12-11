@@ -45,6 +45,7 @@ Loading the COVID data from NYC Health.
 caserate_by_zip = read_csv("./data/caserate-by-modzcta.csv")
 vax_by_boro_age = read_csv("./data/coverage-by-boro-age.csv")
 vax_by_boro_demo = read_csv("./data/coverage-by-boro-demo.csv")
+vax_by_boro_sex = read_csv("./data/coverage-by-boro-sex.csv")
 data_by_day = read_csv("./data/data-by-day.csv")
 doses_by_day = read_csv("./data/doses-by-day.csv")
 hosprate_by_zip = read_csv("./data/hosprate-by-modzcta.csv")
@@ -163,12 +164,17 @@ Cleaning vax_by_boro_age/demo:
 vax_by_boro_age_df = 
   vax_by_boro_age %>% 
   janitor::clean_names() %>% 
-  filter(age_group %in% c("'18-24", "'25-34", "'35-44", "'45-54", "'55-64", "'65-74", "'75-84", "'85+") )
+    mutate(
+    age_group = recode(age_group, "'<5" = "<5", "'5-12" = "5-12", "'13-17" = "13-17", "'18-24" = "18-24", "'25-34" = "25-34", "'35-44" = "35-44","'45-54" = "45-54", "'55-64" = "55-64", "'65-74" = "65-74", "'75-84" = "75-84", "'85+" = "85+")
+  )
+
 
 vax_by_boro_demo_df = 
   vax_by_boro_demo %>% 
   janitor::clean_names() %>% 
-  filter(age_group %in% c("'18-44", "'45-64", "'65+", "All ages") )
+  mutate(
+    age_group = recode(age_group, "'5-12" = "5-12", "'13-17" = "13-17", "'18-44" = "18-44", "'45-64" = "45-64", "'65+" = "65+")
+  )
 ```
 
 Cleaning data/doses_by_day:
@@ -331,6 +337,60 @@ partial_vax_plot
 full_vax_plot
 ```
 
+COVID vaccines by demographics
+```{r}
+vax_by_boro_age_plot = 
+  vax_by_boro_age_df %>% 
+  filter(borough != "Citywide", age_group != "<5", age_group != "5-12", age_group != "13-17" ) %>% 
+  ggplot(aes(x = age_group, y = count_fully_cumulative, fill = age_group)) +
+    geom_bar(stat = "identity")  +
+    facet_grid(. ~ borough) +
+  labs(
+    title = "Number of fully vaccinated adults by age",
+    x = "",
+    y = "Count"
+  ) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  
+vax_by_boro_age_plot
+```
+
+
+```{r}
+vax_by_boro_demo_plot =
+  vax_by_boro_demo_df %>% 
+  filter(borough != "Citywide", age_group != "5-12", age_group != "13-17", age_group != "All ages")  %>% 
+  select(borough, race_ethnicity, count_fully_cumulative) %>% 
+  ggplot(aes(x = race_ethnicity, y = count_fully_cumulative, fill = race_ethnicity)) +
+    geom_bar(stat = "identity")  +
+    facet_grid(. ~ borough) +
+  labs(
+    title = "Number of fully vaccinated adults by race/ethnicity",
+    x = "",
+    y = "Count"
+  ) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+vax_by_boro_demo_plot
+```
+
+```{r}
+vax_by_boro_sex_plot =
+  vax_by_boro_sex %>% 
+  janitor::clean_names() %>% 
+  filter(borough != "Citywide", sex %in% c("Male", "Female"))  %>% 
+  select(borough, sex, count_fully_cumulative) %>% 
+  ggplot(aes(x = sex, y = count_fully_cumulative, fill = sex)) +
+    geom_bar(stat = "identity")  +
+    facet_grid(. ~ borough) +
+  labs(
+    title = "Number of fully vaccinated adults by sex",
+    x = "",
+    y = "Count"
+  )
+
+vax_by_boro_sex_plot
+```
 
 
 Loading NYC Locations Providing Seasonal Flu Vaccinations/ Emergency Department Visits and Admissions for Influenza-like Illness/ Census Selected Social Characteristics
