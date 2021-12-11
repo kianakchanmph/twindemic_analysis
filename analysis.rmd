@@ -203,6 +203,22 @@ caserate_by_boro_plot =
 caserate_by_boro_plot
 ```
 
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+testrate_by_boro_plot = 
+  testrate_by_zip %>% 
+  ggplot(aes(x = week_ending, y = testrate) +
+  geom_line() + 
+  labs(
+    title = "Test Rate by Borough", 
+    x = "",
+    y = "Case Rate"
+  )) 
+testrate_by_boro_plot
+```
+
+
+    
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 partial_vax_plot =
   vax_by_zip_adults_df %>% 
@@ -231,6 +247,12 @@ full_vax_plot
 ```
 
 
+<<<<<<< Updated upstream
+=======
+
+
+
+>>>>>>> Stashed changes
 Loading NYC Locations Providing Seasonal Flu Vaccinations/ Emergency Department Visits and Admissions for Influenza-like Illness/ Census Selected Social Characteristics
 
 ```{r, message = FALSE, warning = FALSE}
