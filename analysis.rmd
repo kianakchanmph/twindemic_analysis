@@ -50,7 +50,10 @@ doses_by_day = read_csv("./data/doses-by-day.csv")
 hosprate_by_zip = read_csv("./data/hosprate-by-modzcta.csv")
 testrate_by_zip = read_csv("./data/testrate-by-modzcta.csv")
 vax_by_zip_adults = read_csv("./data/coverage-by-modzcta-adults.csv")
+
 boroughs_by_sex = read_csv("./data/boroughs-by-sex.csv")
+boroughs_by_age = read_csv("./data/boroughs-by-age.csv")
+boroughs_by_race = read_csv("./data/boroughs-by-race.csv")
 
 zip_lat_lon = 
   read.table("./data/us_zipcode_lat_lon.txt", sep = ",", header = TRUE) %>% 
@@ -205,20 +208,99 @@ caserate_by_boro_plot =
 caserate_by_boro_plot
 ```
 
-
+# Borough by sex, age, and race
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-boroughs_by_sex_plot = 
+boroughs_by_sex_df = 
   boroughs_by_sex %>% 
-  ggplot(aes(x = Group, y = SI_DEATH_RATE)) +
-  geom_line() +
+  janitor::clean_names() %>% 
+  pivot_longer(
+    bk_case_count:si_death_rate,
+    names_to = c("borough", "measure"),
+    names_sep = 2
+  ) %>% 
+  mutate(
+    measure = sub("_","",measure),
+    borough = recode(borough, "bx" = "Bronx", "bk" = "Brooklyn", "mn" = "Manhattan", "qn" = "Queens", "si" = "Staten Island")
+  ) %>% 
+  filter(
+    measure %in% c("case_count", "hospitalized_count", "death_count"),
+    group != "Boroughwide"
+    ) 
+
+boroughs_by_age_df =  
+ boroughs_by_age %>% 
+  janitor::clean_names() %>% 
+  pivot_longer(
+    bk_case_count:si_death_rate,
+    names_to = c("borough", "measure"),
+    names_sep = 2
+  ) %>% 
+  mutate(
+    measure = sub("_","",measure),
+    borough = recode(borough, "bx" = "Bronx", "bk" = "Brooklyn", "mn" = "Manhattan", "qn" = "Queens", "si" = "Staten Island")
+  ) %>% 
+  filter(
+    measure %in% c("case_count", "hospitalized_count", "death_count"),
+    group != "Boroughwide"
+    ) 
+
+boroughs_by_race_df = 
+  boroughs_by_race %>% 
+  janitor::clean_names() %>% 
+  pivot_longer(
+    bk_case_count:si_death_rate_adj,
+    names_to = c("borough", "measure"),
+    names_sep = 2
+  ) %>% 
+  mutate(
+    measure = sub("_","",measure),
+    borough = recode(borough, "bx" = "Bronx", "bk" = "Brooklyn", "mn" = "Manhattan", "qn" = "Queens", "si" = "Staten Island")
+  ) %>% 
+  filter(
+    measure %in% c("case_count", "hospitalized_count", "death_count"),
+    group != "Boroughwide"
+    ) 
+
+boroughs_by_sex_plot =
+  boroughs_by_sex_df %>% 
+  ggplot(aes(x = group, y = value, fill = measure)) +
+    geom_bar(stat = "identity") +
+    facet_grid(. ~ borough) +
   labs(
-    title = "Death Rate by Sex",
-    x = "Group",
-    y = "Death Rate"
+    title = "Case, death, hospitalization counts by sex and borough",
+    x = "",
+    y = "Count"
   )
 
+boroughs_by_age_plot =
+  boroughs_by_age_df %>% 
+  ggplot(aes(x = group, y = value, fill = measure)) +
+    geom_bar(stat = "identity")  +
+    facet_grid(. ~ borough) +
+  labs(
+    title = "Case, death, hospitalization counts by age and borough",
+    x = "",
+    y = "Count"
+  ) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+boroughs_by_race_plot = 
+boroughs_by_race_df %>% 
+  ggplot(aes(x = group, y = value, fill = measure)) +
+    geom_bar(stat = "identity") +
+    facet_grid(. ~ borough) +
+  labs(
+    title = "Case, death, hospitalization counts by race and borough",
+    x = "",
+    y = "Count"
+  ) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
 boroughs_by_sex_plot
+boroughs_by_age_plot
+boroughs_by_race_plot
 ```
+
 
     
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
@@ -412,7 +494,6 @@ merged_vax %>%
 library(maptools)
 library(spatstat)
 library(sf)
-library(spatstat)
 ```
 
 ## FLU CLUSTERING
