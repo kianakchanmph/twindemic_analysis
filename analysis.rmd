@@ -2,6 +2,7 @@
 title: "Twindemic Analysis"
 Date: "12/7/21"
 output: github_document
+always_allow_html: true
 ---
 
 <<<<<<< Updated upstream
@@ -17,6 +18,7 @@ library(haven)
 library(ggplot2)
 library(patchwork)
 library(leaflet)
+
 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -53,7 +55,7 @@ zip_lat_lon =
   read.table("./data/us_zipcode_lat_lon.txt", sep = ",", header = TRUE) %>% 
   janitor::clean_names() %>% 
   rename(zipcode = zip) %>% 
-  filter(zipcode %in% c(10001:10280))
+  filter(zipcode %in% c(10001:11697))
 ```
 From the datasets above, we will likely compare the following pairs: caserate/hosprate/testrate_by_zip; data/doses_by_day; vax_by_boro_age/demo
 
@@ -243,69 +245,40 @@ census_social = read_csv("./data/censuszip_selected_social_characterisitcs_new.c
 
 # Data Cleaning 2
 
- 
-
 Cleaning flu_vaxx_loc:
-
 ```{r}
 
 flu_vaxx_byzipcode =
-
   flu_vaxx_loc %>%
-
   janitor::clean_names() %>%
-
   select(walk_in:zip_code, location) %>%
-
   filter(borough != "YONKERS") %>%
-
   group_by(zip_code) %>%
-
   summarize(n_loc = n()) #to get the total number of vax locations by zipcode
 
- 
-
 flu_vaxx_byboro =
-
     flu_vaxx_loc %>%
-
     janitor::clean_names() %>%
-
     mutate(borough = toupper(borough)) %>%
-
     filter(borough != "YONKERS") %>%
-
     group_by(borough) %>%
-
     summarize(n_loc_boro = n()) #to get the total number of vax locations by zipcode
 
 ```
 
  
 
-## Exploratory Analysis:
-
+## Exploratory Analysis
 ```{r}
-
 ggplot(flu_vaxx_byboro, aes(x = borough, y = n_loc_boro, fill = borough)) +
-
   geom_bar(stat = "identity") +
-
   labs(
-
     title = "Distribution of Locations Providing
-
   Seasonal Flu Vaccinations in NYC",
-
     x = "Boroughs of NYC",
-
     y = "Number of Locations Providing Seasonal Flu Vaccinations"
-
   ) +
-
   theme(plot.title = element_text(hjust = 0.5))
-
- 
 ```
 
 # Social Demo 
@@ -383,4 +356,29 @@ filter(borough != "Westchester" ,
   ) 
 ```
 
+#Merge data and try to make a leaflet
+```{r}
+merged_vax = left_join(vax_by_zip_adults_df, zip_lat_lon, by = "zipcode")
+```
 
+```{r, message=FALSE}
+pal = colorFactor("viridis", NULL)
+merged_vax %>%
+  leaflet() %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addCircleMarkers(~lng, ~lat, radius = 5, color = ~pal(perc_fully), popup = ~perc_fully) %>%
+    addLegend("bottomright", pal = pal, values = ~perc_fully,
+    title = "Percent fully vaccinated",
+    opacity = 1)
+```
+
+```{r, message=FALSE}
+pal = colorFactor("viridis", NULL)
+merged_vax %>%
+  leaflet() %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addCircleMarkers(~lng, ~lat, radius = 5, color = ~pal(perc_partially), popup = ~perc_partially) %>%
+    addLegend("bottomright", pal = pal, values = ~perc_partially,
+    title = "Percent partially vaccinated",
+    opacity = 1)
+```
