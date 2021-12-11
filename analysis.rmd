@@ -235,7 +235,7 @@ Loading NYC Locations Providing Seasonal Flu Vaccinations/ Emergency Department 
 
 flu_vaxx_loc = read_csv("./data/New_York_City_Locations_Providing_Seasonal_Flu_Vaccinations.csv")
 
-census_social = read_csv("./data/censuszip_selected_social_characterisitcs.csv")
+census_social = read_csv("./data/censuszip_selected_social_characterisitcs_new.csv")
 
 ```
 
@@ -306,6 +306,81 @@ ggplot(flu_vaxx_byboro, aes(x = borough, y = n_loc_boro, fill = borough)) +
   theme(plot.title = element_text(hjust = 0.5))
 
  
+```
+
+# Social Demo 
+```{r}
+# education
+cs =
+  census_social %>%
+  janitor::clean_names() %>% 
+  select(name_1, borough, dp02_0060e, dp02_0061e,dp02_0062e,dp02_0063e,dp02_0064e,dp02_0065e, dp02_0066e, dp02_0067e, dp02_0068e) %>%
+  filter(borough != "Westchester" ,
+  borough != "Suffolk" ,
+  borough != "Nassau" ,
+  ) %>%
+  rename(
+  less_than_9th = dp02_0060e,
+  hs_no_diploma = dp02_0061e,
+  hs_grad = dp02_0062e,
+  some_college = dp02_0063e, 
+  Associates = dp02_0064e, 
+  Bachelors = dp02_0065e, 
+  Graduate_or_Professional = dp02_0066e, 
+  hs_or_higher = dp02_0067e, 
+  bachelors_or_higher = dp02_0068e
+  ) %>%
+  pivot_longer(
+    less_than_9th:bachelors_or_higher,
+    names_to = "education", 
+    values_to = "Estimates for Population over 25 years"
+  ) 
+```
+
+```{r}
+# demographics
+demo =
+  census_social %>%
+  janitor::clean_names() %>% 
+  select(name_1, borough, dp02_0124e, dp02_0125e, dp02_0126e, dp02_0127e, dp02_0128e, dp02_0129e, dp02_0130e, dp02_0131e, dp02_0132e,
+dp02_0133e, dp02_0134e, dp02_0135e,dp02_0136e, dp02_0137e, dp02_0138e, dp02_0139e, dp02_0140e, dp02_0141e, dp02_0142e, dp02_0143e,  dp02_0144e, dp02_0145e,  dp02_0146e,  dp02_0147e, dp02_0148e,  dp02_0149e,  dp02_0150e) %>% 
+filter(borough != "Westchester" ,
+  borough != "Suffolk" ,
+  borough != "Nassau" ,
+  ) %>%
+  rename(
+  American = dp02_0124e, 
+  Arab = dp02_0125e, 
+  Czech = dp02_0126e, 
+  Danish = dp02_0127e, 
+  Dutch = dp02_0128e, 
+  English = dp02_0129e, 
+  French = dp02_0130e, 
+  French_Canadian = dp02_0131e, 
+  German = dp02_0132e,
+  Greek = dp02_0133e, 
+  Hungarian = dp02_0134e, 
+  Irish = dp02_0135e,
+  Italian = dp02_0136e, 
+  Lithuanian = dp02_0137e, 
+  Norwegian = dp02_0138e, 
+  Polish = dp02_0139e, 
+  Portuguese = dp02_0140e, 
+  Russian = dp02_0141e, 
+  Scotch_Irish = dp02_0142e, 
+  Scottish = dp02_0143e,  
+  Slovak = dp02_0144e, 
+  Subsaharan_African = dp02_0145e,  
+  Swedish = dp02_0146e,  
+  Swiss = dp02_0147e, 
+  Ukrainian = dp02_0148e,  
+  Welsh = dp02_0149e,  
+  West_Indian = dp02_0150e) %>%
+  pivot_longer(
+    American:West_Indian,
+    names_to = "ancestry", 
+    values_to = "Estimates for Population"
+  ) 
 ```
 
 
